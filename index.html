@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Where Should We Go Next?</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2em; max-width: 700px; margin: auto; background: #f4f4f4; text-align: center; }
+    #landing { padding-top: 5em; }
+    .btn { padding: 1em 2em; font-size: 1em; background: black; color: white; border: none; border-radius: 8px; cursor: pointer; margin-top: 1.5em; transition: 0.3s; }
+    .btn:hover { background: #333; }
+    .option { display: block; margin: 1em 0; padding: 0.7em; background: white; border-radius: 5px; cursor: pointer; border: 1px solid #ccc; }
+    .option:hover { background: #eee; }
+  </style>
+</head>
+<body>
+  <div id="landing">
+    <h1>Where Should We Go Next?</h1>
+    <p>A mysterious travel game that reveals your fate with a secret code.</p>
+    <button onclick="startGame()" class="btn">Start Game</button>
+  </div>
+
+  <div id="quiz" style="display: none;"></div>
+  <div id="result" style="display: none;"></div>
+
+  <script>
+    const questions = [
+      {
+        text: "Which type of landscape sounds most appealing?",
+        options: [
+          "Peaceful forests and vibrant cities",
+          "Windswept coasts and dramatic terrain",
+          "Sun-drenched hills and calm seas",
+          "Rolling countryside and historic towns",
+          "Energetic streets and architectural contrasts"
+        ],
+        values: ["Japan", "Iceland", "Greece", "Italy", "NYC"]
+      },
+      {
+        text: "What kind of atmosphere do you prefer?",
+        options: [
+          "A calm rhythm with a sense of order",
+          "Remote and wild, yet quietly powerful",
+          "Relaxed and open, with a warm energy",
+          "Charming and expressive, full of life",
+          "Fast-moving and full of possibilities"
+        ],
+        values: ["Japan", "Iceland", "Greece", "Italy", "NYC"]
+      },
+      {
+        text: "Your ideal meals would be...",
+        options: [
+          "Subtle, seasonal, and carefully prepared",
+          "Simple, hearty, and locally sourced",
+          "Fresh, grilled, and full of herbs",
+          "Rich, flavorful, and handmade",
+          "Diverse, bold, and ever-changing"
+        ],
+        values: ["Japan", "Iceland", "Greece", "Italy", "NYC"]
+      },
+      {
+        text: "When it comes to history and culture...",
+        options: [
+          "Layered traditions and quiet rituals",
+          "Stories shaped by nature and time",
+          "Myths, philosophy, and sea-faring tales",
+          "Art, innovation, and deep roots",
+          "Movement, creativity, and reinvention"
+        ],
+        values: ["Japan", "Iceland", "Greece", "Italy", "NYC"]
+      },
+      {
+        text: "How do you picture getting around?",
+        options: [
+          "Smooth rides and punctual travel",
+          "Wide open roads and your own pace",
+          "Leisurely routes with scenic stops",
+          "Strolling through beautiful streets",
+          "Public transport with endless directions"
+        ],
+        values: ["Japan", "Iceland", "Greece", "Italy", "NYC"]
+      },
+      {
+        text: "What kind of weather do you enjoy on vacation?",
+        options: [
+          "Crisp mornings and mild seasons",
+          "Cool breezes and ever-changing skies",
+          "Warm days with salty air",
+          "Pleasant days and golden light",
+          "Extreme at times, but worth the trade-off"
+        ],
+        values: ["Japan", "Iceland", "Greece", "Italy", "NYC"]
+      },
+      {
+        text: "Which approach to budget suits you best?",
+        options: [
+          "Value-focused, with hidden gems",
+          "A bit pricey, but peaceful and rare",
+          "Reasonable, with stunning rewards",
+          "Flexible, with options at every tier",
+          "Costly, but packed with access and variety"
+        ],
+        values: ["Japan", "Iceland", "Greece", "Italy", "NYC"]
+      }
+    ];
+
+    const codes = {
+      Japan: ["KAI-47", "NAMI-19", "SORA-88"],
+      Iceland: ["ELDA-31", "SKAL-73", "FROST-22"],
+      Greece: ["THAL-14", "MYTH-33", "HELIOS-71"],
+      Italy: ["ROMA-66", "DUOMO-29", "VINO-11"],
+      NYC: ["METRO-09", "NYX-42", "SKY-55"]
+    };
+
+    let currentQuestion = 0;
+    const scores = { Japan: 0, Iceland: 0, Greece: 0, Italy: 0, NYC: 0 };
+
+    function startGame() {
+      document.getElementById("landing").style.display = "none";
+      document.getElementById("quiz").style.display = "block";
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const quiz = document.getElementById("quiz");
+      const q = questions[currentQuestion];
+      quiz.innerHTML = `<h2>${q.text}</h2>`;
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.className = "option";
+        btn.onclick = () => {
+          scores[q.values[i]]++;
+          currentQuestion++;
+          if (currentQuestion < questions.length) {
+            showQuestion();
+          } else {
+            showResult();
+          }
+        };
+        quiz.appendChild(btn);
+      });
+    }
+
+    function showResult() {
+      document.getElementById("quiz").style.display = "none";
+      const destination = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+      const selectedCode = codes[destination][Math.floor(Math.random() * codes[destination].length)];
+      const resultDiv = document.getElementById("result");
+      resultDiv.style.display = "block";
+      resultDiv.innerHTML = `
+        <h2>Your Destination Code Is:</h2>
+        <h1 style="font-size: 3em;">${selectedCode}</h1>
+        <p>Keep this code safe. Your travel fate will be revealed soon.</p>
+      `;
+    }
+  </script>
+</body>
+</html>

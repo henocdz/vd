@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Destination Code Decoder</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2em; max-width: 500px; margin: auto; text-align: center; background: #f8f8f8; }
+    input, button { padding: 1em; font-size: 1em; margin: 1em 0; }
+  </style>
+</head>
+<body>
+  <h1>Decode a Destination</h1>
+  <p>Enter the secret code to reveal the destination.</p>
+  <input type="text" id="codeInput" placeholder="Enter code..." />
+  <br>
+  <button onclick="decode()">Decode</button>
+  <h2 id="output"></h2>
+
+  <script>
+    const codeMap = {
+      "KAI-47": "Japan", "NAMI-19": "Japan", "SORA-88": "Japan",
+      "ELDA-31": "Iceland", "SKAL-73": "Iceland", "FROST-22": "Iceland",
+      "THAL-14": "Greece", "MYTH-33": "Greece", "HELIOS-71": "Greece",
+      "ROMA-66": "Italy", "DUOMO-29": "Italy", "VINO-11": "Italy",
+      "METRO-09": "NYC", "NYX-42": "NYC", "SKY-55": "NYC"
+    };
+
+    function decode() {
+      const input = document.getElementById("codeInput").value.trim().toUpperCase();
+      const result = codeMap[input];
+      const output = document.getElementById("output");
+      output.textContent = result ? `Your destination is: ${result}` : "Code not recognized.";
+    }
+  </script>
+</body>
+</html>
